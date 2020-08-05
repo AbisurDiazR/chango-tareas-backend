@@ -1,0 +1,32 @@
+<div class="container pricing-table-container">
+    <div class="row" *ngFor="let task of tasks">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8">
+                            <p><strong>{{task.titulo}}</strong></p>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <button type="submit" class="btn btn-success
+                                pull-right">Enviar propuesta</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 price_border">
+                            <p class="price">$ {{task.presupuesto}}</p>
+                        </div>
+                        <div class="col-sm-7 col-md-7">
+                            <p>{{task.descripcion}}</p>
+                        </div>
+                        <div class="col-sm-2 col-md-2 qrdiv">
+                            <p>{{task.createdAt}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
