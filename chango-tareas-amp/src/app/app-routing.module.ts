@@ -7,12 +7,21 @@ import {SigninComponent} from '../app/components/signin/signin.component';
 import {SignupComponent} from '../app/components/signup/signup.component';
 //importamos el guard para proteger las rutas
 import { AuthGuard } from './auth.guard';
+import { HomeComponent } from './components/home/home.component';
+import { SesionestudiantesComponent } from './components/sesionestudiantes/sesionestudiantes.component';
+import { SesionmaestrosComponent } from './components/sesionmaestros/sesionmaestros.component';
+import { RegistroestudiantesComponent } from './components/registroestudiantes/registroestudiantes.component';
+import { RegistromaestrosComponent } from './components/registromaestros/registromaestros.component';
 
 const routes: Routes = [
   {
     path:'',
-    redirectTo: '/task',
+    redirectTo: '/home',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'task',
@@ -30,6 +39,22 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'sesionestudiantes',
+    component: SesionestudiantesComponent
+  },
+  {
+    path: 'sesionmaestros',
+    component: SesionmaestrosComponent
+  },
+  {
+    path: 'registroestudiantes',
+    component: RegistroestudiantesComponent
+  },
+  {
+    path: 'registromaestros',
+    component: RegistromaestrosComponent
   }
 ];
 

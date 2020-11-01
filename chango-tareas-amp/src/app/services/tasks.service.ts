@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TasksService {
 
-  private URL = 'http://localhost:3000/api';
+  private URL = 'https://chango-tareas-backend.herokuapp.com/api';
 
   constructor(private http: HttpClient) { }
 
