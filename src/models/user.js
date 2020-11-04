@@ -5,6 +5,7 @@ const userSchema = new Schema({
     nombre: String,
     correo: String,
     password: String,
+    nivel: String,
     rol: String,
 }, {
     timestamps:true //automaticamene agrega el campo created at y updated at

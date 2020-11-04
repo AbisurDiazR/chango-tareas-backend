@@ -17,8 +17,8 @@ router.get('/', (req,res)=>{
 
 //ruta para registrar un usuario
 router.post('/signup', async (req, res) => {
-    const {correo, nombre, password, rol} = req.body;
-    const newUser = new User({correo,nombre,password,rol});
+    const {correo, nombre, password, nivel, rol} = req.body;
+    const newUser = new User({correo,nombre,password,nivel,rol});
     await newUser.save();
 
     //metodo sing de jsonwebtoken que creara el token
