@@ -1,35 +1,69 @@
-<div class="container" style="margin-left: 20%;">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="profile-sidebar">
-                <div class="profile-userpic">
-                    <img src="https://image.flaticon.com/icons/png/512/201/201818.png" class="img-responsive" alt="...">
+<ng-container *ngIf="!authservice.loggedIn(); else loggedIn">
+    <div class="container centered">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <div class="profile-userpic">
+                        <img src="https://image.flaticon.com/icons/png/512/201/201818.png" class="img-responsive" alt="...">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">Estudiante</div>
+                        <div class="profile-usertitle-job">Registro para estudiantes</div>
+                    </div>
+                    <div class="profile-userbuttons">
+                        <a href="/registroestudiantes" class="btn btn-success btn-sm">Registrarse</a>
+                        <a href="/sesionestudiantes" class="btn btn-danger btn-sm">Ingresar</a>
+                    </div>
                 </div>
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">Estudiante</div>
-                    <div class="profile-usertitle-job">Registro para estudiantes</div>
-                </div>
-                <div class="profile-userbuttons">
-                    <a href="/registroestudiantes" class="btn btn-success btn-sm">Registrarse</a>
-                    <a href="/sesionestudiantes" class="btn btn-danger btn-sm">Ingresar</a>
+            </div>
+
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <div class="profile-userpic">
+                        <img src="https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/teacher.png" class="img-responsive" alt="...">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">Maestro</div>
+                        <div class="profile-usertitle-job">Registro para maestros</div>
+                    </div>
+                    <div class="profile-userbuttons">
+                        <a href="/registromaestros" class="btn btn-success btn-sm">Registrarse</a>
+                        <a href="/sesionmaestros" class="btn btn-danger btn-sm">Ingresar</a>
+                    </div>
                 </div>
             </div>
         </div>
+    </div> 
+</ng-container>
 
-        <div class="col-md-3">
-            <div class="profile-sidebar">
-                <div class="profile-userpic">
-                    <img src="https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/512x512/shadow/teacher.png" class="img-responsive" alt="...">
-                </div>
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">Maestro</div>
-                    <div class="profile-usertitle-job">Registro para maestros</div>
-                </div>
-                <div class="profile-userbuttons">
-                    <a href="/registromaestros" class="btn btn-success btn-sm">Registrarse</a>
-                    <a href="/sesionmaestros" class="btn btn-danger btn-sm">Ingresar</a>
-                </div>
+<ng-template #loggedIn>
+  <div *ngFor="let user of users">
+    <h2 class="text-center my-3">Bienvenido {{user.nombre}}</h2>
+    <div class="text-center">
+      <p *ngIf="user.rol == 'Estudiante'">Estos son los profesores de nivel {{user.nivel}} que te pueden ayudar</p>
+      <p *ngIf="user.rol == 'Maestro'">Estos son los estudiantes de nivel {{user.nivel}} que puedes ayudar</p>
+    </div>
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngFor="let contact of contacts">
+            <div class="box-part text-center">
+              <div class="circular--portrait">
+                <img [src]=" user.rol == 'Estudiante' ? imageMaestro : imageAlumno " alt="">
+              </div>
+              <div class="card-title">
+                <h4>{{contact.rol}} {{contact.nombre}}</h4>
+              </div>
+              <div class="text">
+                <li><p>Nivel: {{contact.nivel}}</p></li>
+                <li><p>Se unio en {{contact.createdAt | date:'short':'GMT-6'}}</p></li>
+                <li><p>Sus materias son {{contact.materias}}</p></li>
+              </div>
+              <button type="button" class="btn btn-primary" (click)="irAlChat(contact._id,user._id)">
+                Contactar
+              </button>
             </div>
+          </div>
         </div>
     </div>
-</div>
+  </div>  
+</ng-template>

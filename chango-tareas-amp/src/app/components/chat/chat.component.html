@@ -1,0 +1,23 @@
+<div class="container p-5">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="chat-window" *ngFor="let user of users">
+                <h1>Bienvenido al chat {{user.nombre}}</h1>
+                <hr>
+                <div class="app-mensajes" id="app-mensajes">
+                    <div [ngClass]="{ 'text-right': chat.uid == user._id }" *ngFor="let chat of chatService.chats">
+                        <span class="badge" [ngClass]="{ 'badge-primary': chat.uid == user._id, 'badge-success': chat.uid != user._id }">{{chat.nombre}} {{chat.uid}}</span>
+                        <p>{{chat.mensaje}}</p>
+                    </div>
+                </div>
+        
+                <div class="input-group">
+                    <input class="form-control" type="text" name="mensaje" id="mensaje" [(ngModel)]="newMensaje.contenido" (keyup.enter)="enviarMensaje()" placeholder="Enviar mensaje">
+                    <div class="input-group-btn">    
+                        <button type="button" class="btn btn-primary px-3"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>

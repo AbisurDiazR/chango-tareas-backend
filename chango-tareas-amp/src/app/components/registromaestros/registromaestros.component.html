@@ -1,1 +1,37 @@
-<p>registromaestros works!</p>
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                Registrar Maestro
+            </div>
+            <div class="card-body">
+                <form (submit)="signUp()">
+                    <div class="form-group">
+                        <input [(ngModel)]="user.nombre" type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre completo" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <input [(ngModel)]="user.correo" type="email" name="correo" id="correo" placeholder="Ingrese su correo electronico" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <input [(ngModel)]="user.password" type="password" name="password" id="password" placeholder="Ingrese su contraseña" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <input [(ngModel)]="user.materias" type="text" type="materias" name="materias" id="materias" placeholder="Ingrese las materias que imparte" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nivel">Nivel de estudios</label>
+                        <select class="form-control" id="nivel" name="nivel" [(ngModel)]="user.nivel">
+                            <option value="{{nivel}}" *ngFor="let nivel of niveles">{{nivel}}</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

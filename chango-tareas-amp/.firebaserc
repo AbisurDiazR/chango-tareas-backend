@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "changotareas": {
+      "hosting": {
+        "chango-tareas-amp": [
+          "changotareas"
+        ]
+      }
+    }
+  }
+}

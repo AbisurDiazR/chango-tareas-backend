@@ -121,6 +121,10 @@
               "devServerTarget": "chango-tareas-amp:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

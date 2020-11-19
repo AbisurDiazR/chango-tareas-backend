@@ -12,6 +12,7 @@ import { SesionestudiantesComponent } from './components/sesionestudiantes/sesio
 import { SesionmaestrosComponent } from './components/sesionmaestros/sesionmaestros.component';
 import { RegistroestudiantesComponent } from './components/registroestudiantes/registroestudiantes.component';
 import { RegistromaestrosComponent } from './components/registromaestros/registromaestros.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,11 @@ const routes: Routes = [
   {
     path: 'registromaestros',
     component: RegistromaestrosComponent
+  },
+  {
+    path: 'chat/:id',
+    component: ChatComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

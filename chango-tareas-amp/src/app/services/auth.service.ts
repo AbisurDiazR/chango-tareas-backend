@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   
-  private URL = "https://chango-tareas-backend.herokuapp.com/api"
+  private URL = "http://localhost:3000/api"
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -34,6 +34,7 @@ export class AuthService {
   //este remueve el token y redirecciona
   logout(){
     localStorage.removeItem('token');
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/home']);
   }
+  
 }
