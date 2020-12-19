@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  private URL = 'http://localhost:3000/api';
+  private URL = 'https://chango-tareas-backend.herokuapp.com/api';
 
   constructor(private http: HttpClient) { }
 

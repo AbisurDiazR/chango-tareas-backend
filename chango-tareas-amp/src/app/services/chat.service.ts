@@ -11,7 +11,7 @@ import { Message } from '../interfaces/message.interface';
 })
 export class ChatService {
 
-  private URL = 'http://localhost:3000/api';
+  private URL = 'https://chango-tareas-backend.herokuapp.com/api';
 
   private itemsCollection: AngularFirestoreCollection<Mensaje>;
   private otherCollection: AngularFirestoreCollection<Mensaje>;
@@ -30,12 +30,12 @@ export class ChatService {
   ngOnInit(): void{
     this.userService.getId().subscribe(
       res => {
-        console.log(res.data);
+        //console.log(res.data);
         this.usuar.nombre = res.data.nombre;
         this.usuar.uid = res.data._id;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     );
   }
@@ -48,7 +48,7 @@ export class ChatService {
       for(let mensaje of mensajes){
         this.chats.unshift(mensaje);
       }
-      console.log(this.chats);
+      //console.log(this.chats);
 
       return this.chats;
     }));
@@ -73,18 +73,18 @@ export class ChatService {
   }
 
   allMessage(receptor: string){
-    console.log('Paramentro: '+receptor);
+    //console.log('Paramentro: '+receptor);
     this.collectionMessage = this.afs.collection<Message>('AllMessages', ref => ref.orderBy('fecha','desc').limit(5));
 
     return this.collectionMessage.valueChanges().pipe(map((arrayMessages: Message[]) => {
       this.messages = [];
       for (let item of arrayMessages) {
-        console.log('Valor item: '+item.receptor);
+        //console.log('Valor item: '+item.receptor);
         if (item.receptor == receptor) {
           this.messages.unshift(item);
         }        
       }
-      console.log(this.messages);
+      //console.log(this.messages);
 
       return this.messages;
     }));

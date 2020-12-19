@@ -6,18 +6,53 @@
                 <hr>
                 <div class="app-mensajes" id="app-mensajes">
                     <div [ngClass]="{ 'text-right': chat.uid == user._id }" *ngFor="let chat of chatService.chats">
-                        <span class="badge" [ngClass]="{ 'badge-primary': chat.uid == user._id, 'badge-success': chat.uid != user._id }">{{chat.nombre}} {{chat.uid}}</span>
-                        <p>{{chat.mensaje}}</p>
+                        <span class="badge" [ngClass]="{ 'badge-primary': chat.uid == user._id, 'badge-success': chat.uid != user._id }">{{chat.nombre}}</span>
+                        <div *ngIf="match(chat.mensaje); then thenBlock else elseBlock"></div>                        
+                        <ng-template #thenBlock><p>Este es el: <a href="{{chat.mensaje}}">Link de pago</a></p></ng-template>
+                        <ng-template #elseBlock><p>{{chat.mensaje}}</p></ng-template>
                     </div>
                 </div>
         
                 <div class="input-group">
                     <input class="form-control" type="text" name="mensaje" id="mensaje" [(ngModel)]="newMensaje.contenido" (keyup.enter)="enviarMensaje()" placeholder="Enviar mensaje">
                     <div class="input-group-btn">    
-                        <button type="button" class="btn btn-primary px-3"><i class="fas fa-paper-plane"></i></button>
+                        <button type="button" class="btn btn-primary px-3" (click)="enviarMensaje()"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                    <div class="input-group-btn" *ngIf="user.rol == 'Maestro'">    
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-dollar-sign"></i></button>
+                    </div>
+                    <!--Modal-->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" name="titulo" id="titulo" [(ngModel)]="producto.items.title" placeholder="Titulo tarea">
+                                    </div>
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" name="precio" id="precio" [(ngModel)]="producto.items.unit_price" placeholder="Precio tarea">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="enviarLinkPago()">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>    
             </div>
         </div>
     </div>
 </div>
+<script>
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+</script>

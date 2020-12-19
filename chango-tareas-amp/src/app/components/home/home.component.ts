@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     );
   }
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
         this.contacts = res.data;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     );
   }

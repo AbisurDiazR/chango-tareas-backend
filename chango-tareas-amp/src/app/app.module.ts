@@ -5,10 +5,6 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { TaskComponent } from './components/task/task.component';
-import { PrivateTaskComponent } from './components/private-task/private-task.component';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { HomeComponent } from './components/home/home.component';
@@ -18,24 +14,29 @@ import { SesionmaestrosComponent } from './components/sesionmaestros/sesionmaest
 import { SesionestudiantesComponent } from './components/sesionestudiantes/sesionestudiantes.component';
 import { ChatComponent } from './components/chat/chat.component';
 
-//
+//importamos el modulo toast
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FailureComponent } from './components/failure/failure.component';
+import { PendingComponent } from './components/pending/pending.component';
+import { SuccessComponent } from './components/success/success.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent,
-    SigninComponent,
-    TaskComponent,
-    PrivateTaskComponent,
     HomeComponent,
     RegistroestudiantesComponent,
     RegistromaestrosComponent,
     SesionmaestrosComponent,
     SesionestudiantesComponent,
-    ChatComponent
+    ChatComponent,
+    FailureComponent,
+    PendingComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +45,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     AuthGuard,

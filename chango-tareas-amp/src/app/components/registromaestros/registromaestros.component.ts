@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-registromaestros',
@@ -8,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./registromaestros.component.scss']
 })
 export class RegistromaestrosComponent implements OnInit {
-  niveles = ['Preparatoria','Universidad'];
+  niveles = ['Preparatoria', 'Universidad'];
 
   user = {
     nombre: '',
@@ -16,25 +17,90 @@ export class RegistromaestrosComponent implements OnInit {
     password: '',
     nivel: '',
     rol: '',
-    materias: ''
-  }  
+    materias: '',
+    credenciales: {
+      'access_token': '',
+      'expires_in': 0,
+      'live_mode': false,
+      'public_key': '',
+      'refresh_token': '',
+      'scope': '',
+      'token_type': '',
+      'user_id': 0
+    }
+  }
 
-  constructor(private authService: AuthService, private router: Router) { }
+  credencial = {
+    client_secret: 'TEST-5324311744444569-112619-2cacd777bcc9b20a253ec3bb3204e92d-7908615',
+    grant_type: 'authorization_code',
+    code: '',
+    redirect_uri: 'https://changotareas.ml/registromaestros'
+  }
+
+  constructor(private authService: AuthService, private router: Router,
+    public route: ActivatedRoute, private notifyService: NotificationService) { }
 
   ngOnInit(): void {
   }
 
-  signUp(){
-    this.user.rol = 'Maestro';
-    this.authService.signUp(this.user).subscribe(
-      res => {
-        console.log(res);
-        localStorage.setItem('token',res.token);
-        this.router.navigate(['/home']);
-      },
-      err => console.log(err)
-    );
-    console.log(this.user);
+  signUp() {
+    var code = this.getParameterByName('code');
+
+    if (this.user.nombre.length == 0 || this.user.correo.length == 0
+      || this.user.password.length == 0 || this.user.nivel.length == 0
+      || this.user.materias.length == 0) {
+      
+        this.notifyService.showInfo('Rellene todos los campos por favor','Atención');
+
+    } else {
+      this.credencial.code = code;
+
+      this.user.rol = 'Maestro';
+      this.authService.getCredenciales(this.credencial).subscribe(
+        res => {
+          this.user.credenciales.access_token = res.data.access_token;
+          this.user.credenciales.expires_in = res.data.expires_in;
+          this.user.credenciales.live_mode = res.data.live_mode;
+          this.user.credenciales.public_key = res.data.public_key;
+          this.user.credenciales.refresh_token = res.data.refresh_token;
+          this.user.credenciales.scope = res.data.scope;
+          this.user.credenciales.token_type = res.data.scope;
+          this.user.credenciales.user_id = res.data.user_id;
+          this.authService.check(this.user).subscribe(
+            res => {
+              if (res.data == 'unavalaible') {
+                this.notifyService.showError('Usuario ya existe', res.data);
+              } else {
+                this.authService.signUp(this.user).subscribe(
+                  res => {
+                    //console.log(res);
+                    localStorage.setItem('token', res.token);
+                    this.router.navigate(['/home']);
+                  },
+                  err => {
+                    this.notifyService.showError('Error de registro',err.statusText);
+                  }
+                );
+              }
+            }
+          );
+
+        }
+      );
+      //console.log(this.user);
+    }
+  }
+
+  getParameterByName(sParametroNombre) {
+    var sPaginaURL = window.location.search.substring(1);
+    var sURLVariables = sPaginaURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+      var sParametro = sURLVariables[i].split('=');
+      if (sParametro[0] == sParametroNombre) {
+        return sParametro[1];
+      }
+    }
+    return null;
   }
 
 }

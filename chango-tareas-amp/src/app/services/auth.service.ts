@@ -7,12 +7,20 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   
-  private URL = "http://localhost:3000/api"
+  private URL = "https://chango-tareas-backend.herokuapp.com/api"
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  getCredenciales(credencial){
+    return this.http.post<any>(this.URL + '/credenciales',credencial);
+  }
+
   signUp(user){
     return this.http.post<any>(this.URL + '/signup',user);
+  }
+
+  check(user){
+    return this.http.post<any>(this.URL + '/validar',user);
   }
 
   signInUser(user: { correo: string; password: string; }) {
