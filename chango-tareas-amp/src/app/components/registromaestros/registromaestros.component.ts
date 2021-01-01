@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -9,6 +10,8 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./registromaestros.component.scss']
 })
 export class RegistromaestrosComponent implements OnInit {
+  title = 'Registro de estudiantes';
+
   niveles = ['Preparatoria', 'Universidad'];
 
   user = {
@@ -31,16 +34,23 @@ export class RegistromaestrosComponent implements OnInit {
   }
 
   credencial = {
-    client_secret: 'TEST-5324311744444569-112619-2cacd777bcc9b20a253ec3bb3204e92d-7908615',
+    client_secret: 'TEST-7278820777929276-112400-87a9751d1572934a08f4134b692ae467-151662073',
     grant_type: 'authorization_code',
     code: '',
-    redirect_uri: 'https://changotareas.ml/registromaestros'
+    redirect_uri: 'https://localhost:4200/registromaestros'
   }
 
   constructor(private authService: AuthService, private router: Router,
-    public route: ActivatedRoute, private notifyService: NotificationService) { }
+    public route: ActivatedRoute, private notifyService: NotificationService,
+    private titleService: Title, private metaService: Meta) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+    this.metaService.addTags([
+      {meta: 'keywords', content: 'registro, maestros, changotareas'},
+      {meta: 'description', content: 'registro de maestros changotareas'},
+      {meta: 'content', content: 'registro, maestros'}
+    ]);
   }
 
   signUp() {
@@ -66,6 +76,9 @@ export class RegistromaestrosComponent implements OnInit {
           this.user.credenciales.scope = res.data.scope;
           this.user.credenciales.token_type = res.data.scope;
           this.user.credenciales.user_id = res.data.user_id;
+
+          console.log(res.data);
+          
           this.authService.check(this.user).subscribe(
             res => {
               if (res.data == 'unavalaible') {
@@ -73,7 +86,7 @@ export class RegistromaestrosComponent implements OnInit {
               } else {
                 this.authService.signUp(this.user).subscribe(
                   res => {
-                    //console.log(res);
+                    console.log(res);
                     localStorage.setItem('token', res.token);
                     this.router.navigate(['/home']);
                   },

@@ -2,6 +2,7 @@
     border: 1px solid black;
     padding: 10px;
     border-radius: 20px;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -35,4 +36,32 @@ div.modalContent{
     background-color: white;
     border: solid 4px black;
     border-color: black;
+}
+
+.input-icons i{
+    position: absolute;
+}
+
+.input-icons {
+    width: 400px;
+    display: inline;
+    margin-bottom: 10px;
+}
+
+.icon{
+    padding: 10px;
+    min-width: 40px;
+}
+
+.font{
+    color: blue;
+}
+
+.font p {
+    font-size: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.f2fs36ck{
+    max-width: 256px;
 }

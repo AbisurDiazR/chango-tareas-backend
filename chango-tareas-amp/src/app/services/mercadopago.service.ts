@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MercadopagoService {
 
-  private URL = 'https://chango-tareas-backend.herokuapp.com/api';
+  private URL = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) { }
 

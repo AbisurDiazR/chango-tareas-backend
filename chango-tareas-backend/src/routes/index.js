@@ -20,7 +20,7 @@ var fetch = require('node-fetch');
 
 //Agregamos credenciales
 mercadopago.configure({
-    access_token: 'TEST-5324311744444569-112619-2cacd777bcc9b20a253ec3bb3204e92d-7908615'
+    access_token: 'TEST-7278820777929276-112400-87a9751d1572934a08f4134b692ae467-151662073'
 });
 
 router.get('/', (req, res) => {
@@ -65,7 +65,7 @@ router.post('/mercadopago', (req, res) => {
             "pending": req.body.back_urls.pending
         },
         items: [req.body.items],
-        marketplace_fee: 0.5
+        marketplace_fee: req.body.fee
     };
 
     mercadopago.preferences.create(preference).then(function (response) {

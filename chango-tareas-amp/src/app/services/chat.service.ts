@@ -11,7 +11,7 @@ import { Message } from '../interfaces/message.interface';
 })
 export class ChatService {
 
-  private URL = 'https://chango-tareas-backend.herokuapp.com/api';
+  private URL = 'http://localhost:3000/api';
 
   private itemsCollection: AngularFirestoreCollection<Mensaje>;
   private otherCollection: AngularFirestoreCollection<Mensaje>;

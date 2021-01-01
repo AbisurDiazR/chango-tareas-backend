@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FailureComponent } from './components/failure/failure.component';
 import { PendingComponent } from './components/pending/pending.component';
 import { SuccessComponent } from './components/success/success.component';
@@ -45,6 +46,7 @@ import { SuccessComponent } from './components/success/success.component';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],

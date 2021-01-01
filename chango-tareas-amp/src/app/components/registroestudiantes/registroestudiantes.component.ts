@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -9,6 +10,8 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./registroestudiantes.component.scss']
 })
 export class RegistroestudiantesComponent implements OnInit {
+  title = 'Registro de maestros';
+
   niveles = ['Preparatoria', 'Universidad'];
 
   user = {
@@ -20,9 +23,16 @@ export class RegistroestudiantesComponent implements OnInit {
   }
 
   constructor(private authService: AuthService, private router: Router, 
-     private notifyService: NotificationService) { }
+    private notifyService: NotificationService, private titleService: Title,
+    private metaService: Meta) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
+    this.metaService.addTags([
+      {meta: 'keywords', content: 'registro, alumnos, changotareas'},
+      {meta: 'description', content: 'registro de alumnos changotareas'},
+      {meta: 'content', content: 'registro, alumnos'}
+    ]);
   }
 
   signUp() {
