@@ -1,5 +1,5 @@
 <ng-container *ngIf="!authservice.loggedIn(); else loggedIn">
-    <div class="container mt-3">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <div class="profile-sidebar">
@@ -43,7 +43,7 @@
       <p *ngIf="user.rol == 'Estudiante'">Estos son los profesores de nivel {{user.nivel}} que te pueden ayudar</p>
       <p *ngIf="user.rol == 'Maestro'">Estos son los estudiantes de nivel {{user.nivel}} que puedes ayudar</p>
     </div>
-      <div class="container mt-3">
+      <div class="container mt-5">
         <div class="row">
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngFor="let contact of contacts">
             <div class="box-part text-center">

@@ -9,7 +9,7 @@
                         <span class="badge" [ngClass]="{ 'badge-primary': chat.uid == user._id, 'badge-success': chat.uid != user._id }">{{chat.nombre}}</span>
                         <div *ngIf="match(chat.mensaje); then thenBlock else elseBlock"></div>                        
                         <ng-template #thenBlock>
-                            <p *ngIf="isFile(chat.mensaje)"><a href="{{chat.mensaje}}"><br><i class="fas fa-file-download fa-5x"></i></a></p>
+                            <p *ngIf="isFile(chat.mensaje)"><a target="_blank" href="{{chat.mensaje}}"><br><i class="fas fa-file-download fa-5x"></i></a></p>
                             <p *ngIf="!isFile(chat.mensaje)">Este es el: <a href="{{chat.mensaje}}">Link de tu pago</a></p>
                         </ng-template>
                         <ng-template #elseBlock><p>{{chat.mensaje}}</p></ng-template>
