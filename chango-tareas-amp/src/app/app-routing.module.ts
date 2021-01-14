@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 //importamos el guard para proteger las rutas
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 //componentes
 import { HomeComponent } from './components/home/home.component';
@@ -14,6 +14,9 @@ import { ChatComponent } from './components/chat/chat.component';
 import { PendingComponent } from './components/pending/pending.component';
 import { SuccessComponent } from './components/success/success.component';
 import { FailureComponent } from './components/failure/failure.component';
+import { SolicitudComponent } from './components/solicitud/solicitud.component';
+import { WpComponent } from './components/wp/wp.component';
+import { WpDashboardComponent } from './components/wp-dashboard/wp-dashboard.component';
 
 const routes: Routes = [
   {
@@ -57,6 +60,19 @@ const routes: Routes = [
   {
     path: 'pending',
     component: PendingComponent
+  },
+  {
+    path: 'solicitud',
+    component: SolicitudComponent
+  },
+  {
+    path: 'wp',
+    component: WpComponent
+  },
+  {
+    path: 'wp-dashboard',
+    component: WpDashboardComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

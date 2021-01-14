@@ -21,4 +21,12 @@ export class UserService {
   getUsers(user: { nivel: string, rol: string }){
     return this.http.post<any>(this.URL + '/users',user);
   }
+
+  listUsers(){
+    return this.http.get<any>(this.URL + '/users');
+  }
+
+  dropUser(parametros){
+    return this.http.post<any>(this.URL+'/user',parametros);
+  }
 }

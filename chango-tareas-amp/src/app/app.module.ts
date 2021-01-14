@@ -5,7 +5,7 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { HomeComponent } from './components/home/home.component';
 import { RegistroestudiantesComponent } from './components/registroestudiantes/registroestudiantes.component';
@@ -25,6 +25,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FailureComponent } from './components/failure/failure.component';
 import { PendingComponent } from './components/pending/pending.component';
 import { SuccessComponent } from './components/success/success.component';
+import { SolicitudComponent } from './components/solicitud/solicitud.component';
+import { WpComponent } from './components/wp/wp.component';
+import { WpDashboardComponent } from './components/wp-dashboard/wp-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { SuccessComponent } from './components/success/success.component';
     ChatComponent,
     FailureComponent,
     PendingComponent,
-    SuccessComponent
+    SuccessComponent,
+    SolicitudComponent,
+    WpComponent,
+    WpDashboardComponent
   ],
   imports: [
     BrowserModule,

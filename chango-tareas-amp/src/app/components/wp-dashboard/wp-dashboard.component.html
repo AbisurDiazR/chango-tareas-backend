@@ -1,0 +1,106 @@
+<div class="d-flex" [ngClass]="status ? 'toggle':'toggled'" id="wrapper">
+    <div class="bg-light boder-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Bienvenido</div>
+        <div class="list-group list-group-flush">
+            <button class="list-group-item list-group-item-action bg-light"
+                (click)="cambiarOpciones()">Solicitudes</button>
+            <button class="list-group-item list-group-item-action bg-light"
+                (click)="cambiarOpciones()">Usuarios</button>
+        </div>
+    </div>
+    <div class="page-content-wrapper">
+        <div class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-primary" id="menu-toggle" (click)="cambiarToggle()">Ocultar</button>
+        </div>
+        <div class="container-fluid">
+            <h4 class="mt-4">Simple sidebar</h4>
+            <div *ngIf="solicitudes">
+                <div class="table-responsive">
+                    <table class="table user-list">
+                        <thead>
+                            <tr>
+                                <th><span>Solicitante</span></th>
+                                <th><span>Fecha de solicitud</span></th>
+                                <th class="text-center"><span>Esatus</span></th>
+                                <th><span>Email</span></th>
+                                <th class="text-center"><span>CV</span></th>
+                                <th>Aceptar</th>
+                                <th>Rechazar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let solicitud of recibidas">
+                                <td style="width: 20%;">
+                                    <p>{{solicitud.nombreSolicitante}}</p>
+                                </td>
+                                <td style="width: 30%">{{solicitud.createdAt | date:'short':'GMT-6'}}</td>
+                                <td class="text-center">
+                                    <span class="label label-default">{{solicitud.estatusSolicitud}}</span>
+                                </td>
+                                <td>
+                                    <a href="">{{solicitud.correoSolicitante}}</a>
+                                </td>
+                                <td>
+                                    <p><a target="_blank" href="{{solicitud.cvSolicitante}}"><i class="fas fa-file-download fa-2x"></i></a></p>
+                                </td>
+                                <td style="width: 20%;">
+                                    <button class="btn btn-primary" (click)="aceptar(solicitud._id, solicitud.nombreSolicitante, solicitud.correoSolicitante)">
+                                        <i class="fas fa-check fa-1x"></i>
+                                    </button>                                    
+                                </td>
+                                <td style="width: 20%;">
+                                    <button class="btn btn-danger" (click)="eliminar(solicitud._id, solicitud.nombreSolicitante, solicitud.correoSolicitante)">
+                                        <i class="fas fa-times fa-1x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="usuarios">
+                <div class="row">
+                    <div class="col-md-auto">
+                        <div class="main-box no-header clearfix">
+                            <div class="table-responsive">
+                                <table class="table user-list">
+                                    <thead>
+                                        <tr>
+                                            <th><span>Nombre</span></th>
+                                            <th><span>Created</span></th>
+                                            <th class="text-center"><span>Rol</span></th>
+                                            <th><span>Email</span></th>
+                                            <th>Borrar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of users">
+                                            <td style="width: 20%;">
+                                                <img *ngIf="user.rol == 'Estudiante'" [src]="imageAlumno" alt="">
+                                                <img *ngIf="user.rol == 'Maestro'" [src]="imageMaestro" alt="">
+                                                <img *ngIf="user.rol == 'Administrador'" [src]="imageAdmin" alt="">
+                                                <p>{{user.nombre}}</p>
+                                            </td>
+                                            <td style="width: 30%">{{user.createdAt | date:'short':'GMT-6'}}</td>
+                                            <td class="text-center">
+                                                <span class="label label-default">{{user.rol}}</span>
+                                            </td>
+                                            <td>
+                                                <a href="">{{user.correo}}</a>
+                                            </td>
+                                            <td style="width: 20%;">
+                                                <button class="btn btn-danger" (click)="eliminarUsuario(user._id)">
+                                                    <i class="fas fa-trash fa-1x"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

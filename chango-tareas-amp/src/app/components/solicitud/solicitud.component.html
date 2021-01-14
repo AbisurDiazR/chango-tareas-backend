@@ -1,0 +1,39 @@
+<div class="container mt-5 mb-5">
+    <div class="row no-gutters">
+        <div class="col"></div>
+        <div class="col-12 col-sm-6 col-md-8">
+            <form (submit)="sendMail()">
+                <!-- Name input -->
+                <div class="form-outline mb-4">
+                    <input [(ngModel)]="mensaje.nombre" type="text" id="nombre" name="nombre" class="form-control" />
+                    <label class="form-label" for="nombre">Nombre</label>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input [(ngModel)]="mensaje.email" type="email" id="email" name="email" class="form-control" />
+                    <label class="form-label" for="email">Correo</label>
+                </div>
+
+                <!-- Message input -->
+                <div class="form-outline mb-4">
+                    <textarea [(ngModel)]="mensaje.mensaje" class="form-control" name="mensaje" id="mensaje" rows="4"></textarea>
+                    <label class="form-label" for="mensaje">Mensaje</label>
+                </div>
+
+                <!-- Checkbox -->
+                <div class="form-outline mb-4">
+                    <input (change)="cambioArchivo($event)" class="form-check-input me-2" type="file" value="" id="file" hidden="true" file-model="file">
+                    <label class="btn btn-primary px-3" for="file"><i class="fas fa-file-upload"> Cargar CV</i></label>
+                    {{pathImage}}                    
+                </div>
+
+                <div>{{uploadPercent | async}}</div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">Enviar</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

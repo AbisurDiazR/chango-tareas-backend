@@ -224,7 +224,7 @@ export class ChatComponent implements OnInit {
         this.pathImage = event.target.files[0].name;
       }
     } else {
-      this.notifyService.showInfo('No se ha cargado ningun archivo', 'Informacio');
+      this.notifyService.showInfo('No se ha cargado ningun archivo', 'Informacion');
     }
   }
 
