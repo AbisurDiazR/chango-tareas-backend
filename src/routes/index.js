@@ -8,6 +8,10 @@ const Tarea = require('../models/tareas');
 
 const Mensaje = require('../models/mensaje');
 
+const Solicitud = require('../models/solicitud');
+
+const Admin = require('../models/admin');
+
 // SDK de Mercado Pago
 const mercadopago = require('mercadopago');
 
@@ -18,14 +22,99 @@ var ObjectId = require('mongodb').ObjectID;
 //variable fetch
 var fetch = require('node-fetch');
 
+//importamos el nodemailer
+const nodemailer = require('nodemailer');
+
 //Agregamos credenciales
 mercadopago.configure({
-    access_token: 'TEST-5324311744444569-112619-2cacd777bcc9b20a253ec3bb3204e92d-7908615'
+    access_token: 'TEST-7278820777929276-112400-87a9751d1572934a08f4134b692ae467-151662073'
 });
 
 router.get('/', (req, res) => {
     res.send('Hello World');
     console.log(req.body)
+});
+
+//ruta para notificar al solicitante
+router.post('/notificar',async (req, res) => {
+    const {nombre, mensaje, url, destino} = req.body;
+
+    contentHtml = `
+        <h1>Sr. ${nombre} esta es la informacion sobre su postulación<h1>
+        <p>${mensaje}</p>
+        <a href="${url}">Click para ver</a>
+    `;
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.office365.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'abisur_yue@hotmail.com',
+            pass: 'aiShinozaki23'
+        }
+    });
+
+    const info = await transporter.sendMail({
+        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        to: `${destino}`,
+        subject: `Solicitud de registro aceptada`,
+        text: 'Ha sido aceptado',
+        html: contentHtml
+    });
+
+    console.log('Message sent', info.messageId);
+
+    res.status(200).send({data: 'Success'});
+    
+});
+
+//ruta para registrar solicitudes
+router.post('/solicitud', async (req, res) => {
+    const {nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud} = req.body;
+
+    const newSolicitud = Solicitud({nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud});
+    await newSolicitud.save();
+
+    console.log(newSolicitud);
+
+    res.status(200).send({data: 'Success'});
+});
+
+//ruta para enviar el correo con nodemailer
+router.post('/send-email',async (req,res) => {
+    const {nombre, email, mensaje, url, destino} = req.body;
+
+    contentHtml = `
+        <h1>CV solicitante ${nombre}<h1>
+        <ul>
+            <li>Contactar a: ${email}</li>
+            <li>${mensaje}</li>
+        </ul>
+        <a href="${url}">Click para ver</a>
+    `;
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.office365.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'abisur_yue@hotmail.com',
+            pass: 'aiShinozaki23'
+        }
+    });
+
+    const info = await transporter.sendMail({
+        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        to: `${destino}`,
+        subject: `Solicitud de registro ${nombre}`,
+        text: 'Hola guapo :v',
+        html: contentHtml
+    });
+
+    console.log('Message sent', info.messageId);
+
+    res.status(200).send({data: 'Success'});
 });
 
 //ruta para mercado pago credenciales
@@ -65,7 +154,7 @@ router.post('/mercadopago', (req, res) => {
             "pending": req.body.back_urls.pending
         },
         items: [req.body.items],
-        marketplace_fee: 0.5
+        marketplace_fee: req.body.fee
     };
 
     mercadopago.preferences.create(preference).then(function (response) {
@@ -121,42 +210,49 @@ router.post('/signin', async (req, res) => {
     return res.status(200).json({ token, user });
 });
 
-//ruta para nuevo mensaje
-router.post('/newMessage', async (req, res) => {
-    const { chatName, contenido, emisor, receptor } = req.body;
-
-    const mensaje = new Mensaje({ chatName, contenido, emisor, receptor });
-    await mensaje.save();
-    console.log(mensaje);
-    return res.send('Mensaje enviado');
-});
-
-//ruta para obtener mensajes
-router.get('/mensajes', verifyToken, (req, res) => {
-    console.log(req.userId);
-    Mensaje.find({ "receptor": ObjectId(req.userId) }).lean().exec((err, doc) => {
+//ruta para listar usuarios
+router.get('/users', verifyToken, (req, res) => {
+    User.find().lean().exec((err, doc) => {
         if (doc.length > 0) {
             //console.log(doc);
-            res.send({ data: doc });
+            res.send({data: doc});
         } else {
-            console.log(err);
-            res.send({ success: false, message: 'No documents retrieved' });
+            //console.log(err);
+            res.send({ success: false, message: 'No hay usuarios registrados'})
         }
     });
 });
 
-router.get('/private', verifyToken, (req, res) => {
-    Tarea.find().lean().exec((err, doc) => {
+//ruta para eliminar usuario
+router.post('/user',(req,res) => {
+    const {id} = req.body;
+
+    User.deleteOne({ "_id": ObjectId(id) }).lean().exec((err,doc) => {
+        res.send({success: true, message: 'Se ha eliminado al usuario'});
+    });
+});
+
+//ruta para listar solicitudes
+router.get('/solicitudes', verifyToken, (req,res) => {
+    Solicitud.find().lean().exec((err,doc) => {
         if (doc.length > 0) {
-            console.log(doc);
-            res.send({ data: doc });
+            //console.log(doc);
+            res.send({data: doc});
         } else {
-            console.log(err);
-            res.send({ success: false, message: 'No documents retrieved' });
+            //console.log(err);
+            res.send({success: false, message: 'No hay solicitudes actualmente'});            
         }
     });
 });
 
+//ruta para rechazar solicitud
+router.post('/solicitudes',(req, res) => {
+    const {estatus, id} = req.body;
+    
+    Solicitud.update({"_id": id}, {"$set": {"estatusSolicitud": estatus}}).lean().exec((err, doc) => {
+        res.send({success: true, message: 'Actualizado', estatus: estatus});
+    });
+});
 
 //ruta para obtener el usuario actual
 router.get('/home', verifyToken, (req, res) => {
