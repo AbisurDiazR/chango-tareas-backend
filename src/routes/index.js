@@ -116,22 +116,20 @@ router.post('/send-email', cors(), async (req, res, next) => {
         }
     });
 
-    try{
-        const info = await transporter.sendMail({
-            from: "'ChangoTareas' <abisur_yue@hotmail.com>",
-            to: `${destino}`,
-            subject: `Solicitud de registro ${nombre}`,
-            text: 'Hola guapo :v',
-            html: contentHtml
-        });
-
-        console.log('Message sent', info.messageId);
-
-        res.status(200).send({ data: 'Success' });
-    }catch(err){
+    const info = await transporter.sendMail({
+        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        to: `${destino}`,
+        subject: `Solicitud de registro ${nombre}`,
+        text: 'Hola guapo :v',
+        html: contentHtml
+    },(err) => {
         next(err);
-    }       
-    
+        console.log(err);
+    });
+        
+    console.log('Message sent', info.messageId);
+
+    res.status(200).send({ data: 'Success' });
 });
 
 //ruta para mercado pago credenciales
