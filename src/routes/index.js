@@ -26,7 +26,7 @@ var fetch = require('node-fetch');
 const nodemailer = require('nodemailer');
 
 //politicas cors
-//const cors = require('cors');
+const cors = require('cors');
 
 //Agregamos credenciales
 mercadopago.configure({
@@ -88,7 +88,7 @@ router.post('/solicitud', async (req, res) => {
 });
 
 //ruta para enviar el correo con nodemailer
-router.post('/send-email', async (req, res) => {
+router.post('/send-email', cors(), async (req, res) => {
 
     const { nombre, email, mensaje, url, destino } = req.body;
 
