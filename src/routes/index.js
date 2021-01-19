@@ -117,16 +117,18 @@ router.post('/send-email', cors(), async (req, res) => {
         }
     });
 
-    const info = await transporter.sendMail({
-        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
-        to: `${destino}`,
-        subject: `Solicitud de registro ${nombre}`,
-        text: 'Hola guapo :v',
-        html: contentHtml
-    },(err, success) => {
-        console.log(err);
-    });
-
+    try{
+        const info = await transporter.sendMail({
+            from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+            to: `${destino}`,
+            subject: `Solicitud de registro ${nombre}`,
+            text: 'Hola guapo :v',
+            html: contentHtml
+        });
+    }catch(err){
+        next(err);
+    }
+        
     console.log('Message sent', info.messageId);
 
     res.status(200).send({ data: 'Success' });
