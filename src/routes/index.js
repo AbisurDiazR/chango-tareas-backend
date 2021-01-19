@@ -25,6 +25,9 @@ var fetch = require('node-fetch');
 //importamos el nodemailer
 const nodemailer = require('nodemailer');
 
+//politicas cors
+const cors = require('cors');
+
 //Agregamos credenciales
 mercadopago.configure({
     access_token: 'TEST-7278820777929276-112400-87a9751d1572934a08f4134b692ae467-151662073'
@@ -34,6 +37,9 @@ router.get('/', (req, res) => {
     res.send('Hello World');
     console.log(req.body)
 });
+
+//implementación politicas cors
+router.use(cors());
 
 //ruta para notificar al solicitante
 router.post('/notificar', async (req, res) => {
@@ -83,10 +89,6 @@ router.post('/solicitud', async (req, res) => {
 
 //ruta para enviar el correo con nodemailer
 router.post('/send-email', async (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
     const { nombre, email, mensaje, url, destino } = req.body;
 
