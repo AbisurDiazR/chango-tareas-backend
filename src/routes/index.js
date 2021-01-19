@@ -26,7 +26,7 @@ var fetch = require('node-fetch');
 const nodemailer = require('nodemailer');
 
 //politicas cors
-const cors = require('cors');
+//const cors = require('cors');
 
 //Agregamos credenciales
 mercadopago.configure({
@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
 });
 
 //implementación politicas cors
-router.use(cors());
+//router.use(cors());
 
 //ruta para notificar al solicitante
 router.post('/notificar', async (req, res) => {

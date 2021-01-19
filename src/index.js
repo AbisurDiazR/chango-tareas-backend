@@ -8,7 +8,7 @@ const PORT = process.env.PORT||3000;
 require('./database');
 
 //añadimos las cabeceras cors
-app.use(cors());
+//app.use(cors());
 //el metodo json es para obtener el body del request en formato json
 app.use(express.json());
 
