@@ -36,8 +36,8 @@ router.get('/', (req, res) => {
 });
 
 //ruta para notificar al solicitante
-router.post('/notificar',async (req, res) => {
-    const {nombre, mensaje, url, destino} = req.body;
+router.post('/notificar', async (req, res) => {
+    const { nombre, mensaje, url, destino } = req.body;
 
     contentHtml = `
         <h1>Sr. ${nombre} esta es la informacion sobre su postulación<h1>
@@ -65,25 +65,30 @@ router.post('/notificar',async (req, res) => {
 
     console.log('Message sent', info.messageId);
 
-    res.status(200).send({data: 'Success'});
-    
+    res.status(200).send({ data: 'Success' });
+
 });
 
 //ruta para registrar solicitudes
 router.post('/solicitud', async (req, res) => {
-    const {nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud} = req.body;
+    const { nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud } = req.body;
 
-    const newSolicitud = Solicitud({nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud});
+    const newSolicitud = Solicitud({ nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud });
     await newSolicitud.save();
 
     console.log(newSolicitud);
 
-    res.status(200).send({data: 'Success'});
+    res.status(200).send({ data: 'Success' });
 });
 
 //ruta para enviar el correo con nodemailer
-router.post('/send-email',async (req,res) => {
-    const {nombre, email, mensaje, url, destino} = req.body;
+router.post('/send-email', async (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+
+    const { nombre, email, mensaje, url, destino } = req.body;
 
     contentHtml = `
         <h1>CV solicitante ${nombre}<h1>
@@ -114,7 +119,7 @@ router.post('/send-email',async (req,res) => {
 
     console.log('Message sent', info.messageId);
 
-    res.status(200).send({data: 'Success'});
+    res.status(200).send({ data: 'Success' });
 });
 
 //ruta para mercado pago credenciales
@@ -167,14 +172,14 @@ router.post('/mercadopago', (req, res) => {
 
 //ruta para revisar existencia de usuario y correo
 router.post('/validar', async (req, res) => {
-    const {correo} = req.body;
+    const { correo } = req.body;
 
-    const user = await User.findOne({correo});
+    const user = await User.findOne({ correo });
 
-    if(user){
-        res.send({data: 'unavalaible'})
-    }else{
-        res.send({data: 'avalaible'});
+    if (user) {
+        res.send({ data: 'unavalaible' })
+    } else {
+        res.send({ data: 'avalaible' });
     }
 });
 
@@ -201,9 +206,9 @@ router.post('/signin', async (req, res) => {
     //find one devuelve un solo objeto y nos permite hacer la comparacion
     const user = await User.findOne({ correo });
     //verificamos si el usuario existe en la base de datos
-    if (!user) return res.status(401).json({mensaje: 'El correo no existe'});
+    if (!user) return res.status(401).json({ mensaje: 'El correo no existe' });
     //validamos la contraseña
-    if (user.password !== password) return res.status(401).json({mensaje: 'Contraseña erronea'});
+    if (user.password !== password) return res.status(401).json({ mensaje: 'Contraseña erronea' });
 
     //obtenemos el token
     const token = jwt.sign({ _id: user._id }, 'secretKey');
@@ -215,42 +220,42 @@ router.get('/users', verifyToken, (req, res) => {
     User.find().lean().exec((err, doc) => {
         if (doc.length > 0) {
             //console.log(doc);
-            res.send({data: doc});
+            res.send({ data: doc });
         } else {
             //console.log(err);
-            res.send({ success: false, message: 'No hay usuarios registrados'})
+            res.send({ success: false, message: 'No hay usuarios registrados' })
         }
     });
 });
 
 //ruta para eliminar usuario
-router.post('/user',(req,res) => {
-    const {id} = req.body;
+router.post('/user', (req, res) => {
+    const { id } = req.body;
 
-    User.deleteOne({ "_id": ObjectId(id) }).lean().exec((err,doc) => {
-        res.send({success: true, message: 'Se ha eliminado al usuario'});
+    User.deleteOne({ "_id": ObjectId(id) }).lean().exec((err, doc) => {
+        res.send({ success: true, message: 'Se ha eliminado al usuario' });
     });
 });
 
 //ruta para listar solicitudes
-router.get('/solicitudes', verifyToken, (req,res) => {
-    Solicitud.find().lean().exec((err,doc) => {
+router.get('/solicitudes', verifyToken, (req, res) => {
+    Solicitud.find().lean().exec((err, doc) => {
         if (doc.length > 0) {
             //console.log(doc);
-            res.send({data: doc});
+            res.send({ data: doc });
         } else {
             //console.log(err);
-            res.send({success: false, message: 'No hay solicitudes actualmente'});            
+            res.send({ success: false, message: 'No hay solicitudes actualmente' });
         }
     });
 });
 
 //ruta para rechazar solicitud
-router.post('/solicitudes',(req, res) => {
-    const {estatus, id} = req.body;
-    
-    Solicitud.update({"_id": id}, {"$set": {"estatusSolicitud": estatus}}).lean().exec((err, doc) => {
-        res.send({success: true, message: 'Actualizado', estatus: estatus});
+router.post('/solicitudes', (req, res) => {
+    const { estatus, id } = req.body;
+
+    Solicitud.update({ "_id": id }, { "$set": { "estatusSolicitud": estatus } }).lean().exec((err, doc) => {
+        res.send({ success: true, message: 'Actualizado', estatus: estatus });
     });
 });
 
