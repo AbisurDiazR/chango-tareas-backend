@@ -48,7 +48,7 @@ router.use((req, res, next) => {
 });
 
 //ruta para notificar al solicitante
-router.post('/notificar', async (req, res) => {
+router.post('/notificar', cors(), async (req, res) => {
     const { nombre, mensaje, url, destino } = req.body;
 
     contentHtml = `
