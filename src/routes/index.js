@@ -94,7 +94,7 @@ router.post('/solicitud', async (req, res) => {
 });
 
 //ruta para enviar el correo con nodemailer
-router.post('/send-email', cors(), async (req, res) => {
+router.post('/send-email', cors(), async (req, res, next) => {
 
     const { nombre, email, mensaje, url, destino } = req.body;
 
