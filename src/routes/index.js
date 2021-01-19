@@ -94,7 +94,7 @@ router.post('/solicitud', async (req, res) => {
 });
 
 //ruta para enviar el correo con nodemailer
-router.post('/send-email', cors(), async (req, res, next) => {
+router.post('/send-email', cors(), async (req, res) => {
 
     const { nombre, email, mensaje, url, destino } = req.body;
 
@@ -110,9 +110,10 @@ router.post('/send-email', cors(), async (req, res, next) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
         port: 587,
+        secure: false,
         auth: {
             user: 'abisur_yue@hotmail.com',
-            pass: 'aiShinozaki23'
+            pass: 'aishinozaki23'
         }
     });
 
@@ -122,11 +123,8 @@ router.post('/send-email', cors(), async (req, res, next) => {
         subject: `Solicitud de registro ${nombre}`,
         text: 'Hola guapo :v',
         html: contentHtml
-    },(err) => {
-        next(err);
-        console.log(err);
     });
-        
+
     console.log('Message sent', info.messageId);
 
     res.status(200).send({ data: 'Success' });
