@@ -110,7 +110,6 @@ router.post('/send-email', cors(), async (req, res) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
         port: 587,
-        secure: false,
         auth: {
             user: 'abisur_yue@hotmail.com',
             pass: 'aiShinozaki23'
