@@ -117,6 +117,8 @@ router.post('/send-email', cors(), async (req, res) => {
         subject: `Solicitud de registro ${nombre}`,
         text: 'Hola guapo :v',
         html: contentHtml
+    },(err, success) => {
+        console.log(err);
     });
 
     console.log('Message sent', info.messageId);
