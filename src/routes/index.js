@@ -62,13 +62,13 @@ router.post('/notificar', cors(), async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-            user: 'abisur_yue@hotmail.com',
-            pass: 'aiShinozaki23'
+            user: 'equipochangotareas@hotmail.com',
+            pass: 'equipochango2021'
         }
     });
 
     const info = await transporter.sendMail({
-        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        from: "'ChangoTareas' <equipochangotareas@hotmail.com>",
         to: `${destino}`,
         subject: `Solicitud de registro aceptada`,
         text: 'Ha sido aceptado',
@@ -112,13 +112,13 @@ router.post('/send-email', cors(), async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-            user: 'abisur_yue@hotmail.com',
-            pass: 'aishinozaki23'
+            user: 'equipochangotareas@hotmail.com',
+            pass: 'equipochango2021'
         }
     });
 
     const info = await transporter.sendMail({
-        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        from: "'ChangoTareas' <equipochangotareas@hotmail.com>",
         to: `${destino}`,
         subject: `Solicitud de registro ${nombre}`,
         text: 'Hola guapo :v',
