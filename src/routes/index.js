@@ -70,7 +70,7 @@ router.post('/notificar', cors(), async (req, res) => {
     const info = await transporter.sendMail({
         from: "'ChangoTareas' <equipochangotareas@hotmail.com>",
         to: `${destino}`,
-        subject: `Solicitud de registro aceptada`,
+        subject: `Solicitud de registro información`,
         text: 'Ha sido aceptado',
         html: contentHtml
     });
