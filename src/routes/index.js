@@ -30,7 +30,7 @@ const cors = require('cors');
 
 //Agregamos credenciales
 mercadopago.configure({
-    access_token: 'TEST-7278820777929276-112400-87a9751d1572934a08f4134b692ae467-151662073'
+    access_token: 'APP_USR-5324311744444569-112619-6ef452d8711f8196e9190c21e5f30727-7908615'
 });
 
 router.get('/', (req, res) => {
