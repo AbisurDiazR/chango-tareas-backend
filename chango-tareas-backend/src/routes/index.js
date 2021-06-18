@@ -36,8 +36,8 @@ router.get('/', (req, res) => {
 });
 
 //ruta para notificar al solicitante
-router.post('/notificar',async (req, res) => {
-    const {nombre, mensaje, url, destino} = req.body;
+router.post('/notificar', async(req, res) => {
+    const { nombre, mensaje, url, destino } = req.body;
 
     contentHtml = `
         <h1>Sr. ${nombre} esta es la informacion sobre su postulación<h1>
@@ -50,13 +50,13 @@ router.post('/notificar',async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-            user: 'abisur_yue@hotmail.com',
-            pass: 'aiShinozaki23'
+            user: 'equipochangotareas@hotmail.com',
+            pass: 'equipochango2021'
         }
     });
 
     const info = await transporter.sendMail({
-        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        from: "'ChangoTareas' <equipochangotareas@hotmail.com>",
         to: `${destino}`,
         subject: `Solicitud de registro aceptada`,
         text: 'Ha sido aceptado',
@@ -65,25 +65,26 @@ router.post('/notificar',async (req, res) => {
 
     console.log('Message sent', info.messageId);
 
-    res.status(200).send({data: 'Success'});
-    
+    res.status(200).send({ data: 'Success' });
+
 });
 
 //ruta para registrar solicitudes
-router.post('/solicitud', async (req, res) => {
-    const {nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud} = req.body;
+router.post('/solicitud', async(req, res) => {
+    const { nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud } = req.body;
 
-    const newSolicitud = Solicitud({nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud});
+    const newSolicitud = Solicitud({ nombreSolicitante, correoSolicitante, cvSolicitante, estatusSolicitud });
     await newSolicitud.save();
 
     console.log(newSolicitud);
 
-    res.status(200).send({data: 'Success'});
+    res.status(200).send({ data: 'Success' });
 });
 
 //ruta para enviar el correo con nodemailer
-router.post('/send-email',async (req,res) => {
-    const {nombre, email, mensaje, url, destino} = req.body;
+router.post('/send-email', async(req, res) => {
+
+    const { nombre, email, mensaje, url, destino } = req.body;
 
     contentHtml = `
         <h1>CV solicitante ${nombre}<h1>
@@ -99,13 +100,13 @@ router.post('/send-email',async (req,res) => {
         port: 587,
         secure: false,
         auth: {
-            user: 'abisur_yue@hotmail.com',
-            pass: 'aiShinozaki23'
+            user: 'equipochangotareas@hotmail.com',
+            pass: 'equipochango2021'
         }
     });
 
     const info = await transporter.sendMail({
-        from: "'ChangoTareas' <abisur_yue@hotmail.com>",
+        from: "'ChangoTareas' <equipochangotareas@hotmail.com>",
         to: `${destino}`,
         subject: `Solicitud de registro ${nombre}`,
         text: 'Hola guapo :v',
@@ -114,7 +115,7 @@ router.post('/send-email',async (req,res) => {
 
     console.log('Message sent', info.messageId);
 
-    res.status(200).send({data: 'Success'});
+    res.status(200).send({ data: 'Success' });
 });
 
 //ruta para mercado pago credenciales
@@ -157,29 +158,29 @@ router.post('/mercadopago', (req, res) => {
         marketplace_fee: req.body.fee
     };
 
-    mercadopago.preferences.create(preference).then(function (response) {
+    mercadopago.preferences.create(preference).then(function(response) {
         res.send({ data: response.body });
         console.log(response.body);
-    }).catch(function (err) {
+    }).catch(function(err) {
         console.log(err);
     });
 });
 
 //ruta para revisar existencia de usuario y correo
-router.post('/validar', async (req, res) => {
-    const {correo} = req.body;
+router.post('/validar', async(req, res) => {
+    const { correo } = req.body;
 
-    const user = await User.findOne({correo});
+    const user = await User.findOne({ correo });
 
-    if(user){
-        res.send({data: 'unavalaible'})
-    }else{
-        res.send({data: 'avalaible'});
+    if (user) {
+        res.send({ data: 'unavalaible' })
+    } else {
+        res.send({ data: 'avalaible' });
     }
 });
 
 //ruta para registrar un usuario
-router.post('/signup', async (req, res) => {
+router.post('/signup', async(req, res) => {
     const { correo, nombre, password, nivel, rol, materias, credenciales } = req.body;
 
     //validamos si el correo ya esta registrado
@@ -196,14 +197,14 @@ router.post('/signup', async (req, res) => {
 });
 
 //ruta para volver a iniciar sesion de usuario
-router.post('/signin', async (req, res) => {
+router.post('/signin', async(req, res) => {
     const { correo, password } = req.body;
     //find one devuelve un solo objeto y nos permite hacer la comparacion
     const user = await User.findOne({ correo });
     //verificamos si el usuario existe en la base de datos
-    if (!user) return res.status(401).json({mensaje: 'El correo no existe'});
+    if (!user) return res.status(401).json({ mensaje: 'El correo no existe' });
     //validamos la contraseña
-    if (user.password !== password) return res.status(401).json({mensaje: 'Contraseña erronea'});
+    if (user.password !== password) return res.status(401).json({ mensaje: 'Contraseña erronea' });
 
     //obtenemos el token
     const token = jwt.sign({ _id: user._id }, 'secretKey');
@@ -215,42 +216,42 @@ router.get('/users', verifyToken, (req, res) => {
     User.find().lean().exec((err, doc) => {
         if (doc.length > 0) {
             //console.log(doc);
-            res.send({data: doc});
+            res.send({ data: doc });
         } else {
             //console.log(err);
-            res.send({ success: false, message: 'No hay usuarios registrados'})
+            res.send({ success: false, message: 'No hay usuarios registrados' })
         }
     });
 });
 
 //ruta para eliminar usuario
-router.post('/user',(req,res) => {
-    const {id} = req.body;
+router.post('/user', (req, res) => {
+    const { id } = req.body;
 
-    User.deleteOne({ "_id": ObjectId(id) }).lean().exec((err,doc) => {
-        res.send({success: true, message: 'Se ha eliminado al usuario'});
+    User.deleteOne({ "_id": ObjectId(id) }).lean().exec((err, doc) => {
+        res.send({ success: true, message: 'Se ha eliminado al usuario' });
     });
 });
 
 //ruta para listar solicitudes
-router.get('/solicitudes', verifyToken, (req,res) => {
-    Solicitud.find().lean().exec((err,doc) => {
+router.get('/solicitudes', verifyToken, (req, res) => {
+    Solicitud.find().lean().exec((err, doc) => {
         if (doc.length > 0) {
             //console.log(doc);
-            res.send({data: doc});
+            res.send({ data: doc });
         } else {
             //console.log(err);
-            res.send({success: false, message: 'No hay solicitudes actualmente'});            
+            res.send({ success: false, message: 'No hay solicitudes actualmente' });
         }
     });
 });
 
 //ruta para rechazar solicitud
-router.post('/solicitudes',(req, res) => {
-    const {estatus, id} = req.body;
-    
-    Solicitud.update({"_id": id}, {"$set": {"estatusSolicitud": estatus}}).lean().exec((err, doc) => {
-        res.send({success: true, message: 'Actualizado', estatus: estatus});
+router.post('/solicitudes', (req, res) => {
+    const { estatus, id } = req.body;
+
+    Solicitud.update({ "_id": id }, { "$set": { "estatusSolicitud": estatus } }).lean().exec((err, doc) => {
+        res.send({ success: true, message: 'Actualizado', estatus: estatus });
     });
 });
 
