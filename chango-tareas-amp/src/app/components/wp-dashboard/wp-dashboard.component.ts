@@ -78,7 +78,7 @@ export class WpDashboardComponent implements OnInit {
         this.mensaje.nombre = nombre;
         this.mensaje.destino = destino;
         this.mensaje.mensaje = `Felicidades ${nombre} ha sido aceptado en ChangoTareas`;
-        this.mensaje.url = 'https://auth.mercadopago.com.mx/authorization?client_id=7278820777929276&response_type=code&platform_id=mp&redirect_uri=https://localhost:4200/registromaestros';
+        this.mensaje.url = 'https://auth.mercadopago.com.mx/authorization?client_id=5324311744444569&response_type=code&platform_id=mp&redirect_uri=https://changotareas.com/registromaestros';
 
         this.messageService.notificar(this.mensaje).subscribe((res) => {
           this.notificationService.showInfo('La respuesta ha sido enviada','Respuesta enviada');
@@ -99,7 +99,7 @@ export class WpDashboardComponent implements OnInit {
         this.mensaje.nombre = nombre;
         this.mensaje.destino = destino;
         this.mensaje.mensaje = `Sr. ${nombre} su solicitud ha sido rechazada en ChangoTareas`;
-        //this.mensaje.url = 'https://auth.mercadopago.com.mx/authorization?client_id=7278820777929276&response_type=code&platform_id=mp&redirect_uri=https://changotareas.ml/registromaestros';
+        this.mensaje.url = '';
 
         this.messageService.notificar(this.mensaje).subscribe((res) => {
           this.notificationService.showSuccess('La respuesta ha sido enviada','Respuesta enviada');
