@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "https://chango-tareas-backend.herokuapp.com",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

@@ -5,13 +5,14 @@ import { Mensaje } from '../interfaces/mensaje.interface';
 import { map } from 'rxjs/operators'; 
 import { UserService } from './user.service';
 import { Message } from '../interfaces/message.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  private URL = 'http://localhost:3000/api';
+  private URL = environment.rootUrl;
 
   private itemsCollection: AngularFirestoreCollection<Mensaje>;
   private otherCollection: AngularFirestoreCollection<Mensaje>;

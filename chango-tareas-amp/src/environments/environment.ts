@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  rootUrl: "https://chango-tareas-backend.herokuapp.com/api",
-  //rootUrl: "http://localhost:3000/api",
+  //rootUrl: "https://chango-tareas-backend.herokuapp.com/api",
+  rootUrl: "http://localhost:3000/api",
   production: false,
   firebase: {
     apiKey: "AIzaSyCDSGVVZe8oxtjZCyuC-bXdLyZT4_LIe9g",

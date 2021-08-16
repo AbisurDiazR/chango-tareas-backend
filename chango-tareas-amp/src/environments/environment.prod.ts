@@ -1,6 +1,6 @@
 export const environment = {
-  //rootUrl: "http://localhost:3000/api",
-  rootUrl: "https://chango-tareas-backend.herokuapp.com/api",
+  rootUrl: "http://localhost:3000/api",
+  //rootUrl: "https://chango-tareas-backend.herokuapp.com/api",
   production: true,
   firebase: {
     apiKey: "AIzaSyCDSGVVZe8oxtjZCyuC-bXdLyZT4_LIe9g",
